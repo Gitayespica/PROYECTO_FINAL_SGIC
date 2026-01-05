@@ -9,15 +9,21 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    public function client() { 
-        return $this->belongsTo(Client::class); } 
-        
-    public function assignedUser() { 
-        return $this->belongsTo(User::class, 'assigned_to'); } 
-    
-    public function comments() { 
-        return $this->hasMany(TicketComment::class); } 
-            
-    public function attachments() { 
-        return $this->hasMany(TicketAttachment::class); }
+    protected $fillable = ['title', 'description', 'status', 'priority', 'client_id', 'assigned_to'];
+
+    // Relaciones
+    public function client()
+    {
+        return $this->belongsTo(Client::class); // Un ticket pertenece a un cliente
+    }
+
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'assigned_to'); // Un ticket pertenece a un usuario asignado
+    }
+
+    public function files()
+    {
+        return $this->hasMany(TicketFile::class); // Un ticket tiene muchos archivos
+    }
 }

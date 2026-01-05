@@ -10,36 +10,23 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password', 'role_id']; // Campos que se pueden llenar masivamente
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // Relaciones
+    public function role()
+    {
+        return $this->belongsTo(Role::class); // Un usuario pertenece a un rol
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function assignedTickets()
+    {
+        return $this->hasMany(Ticket::class, 'assigned_to'); // Un usuario tiene muchos tickets asignados
+    }
+
+    public function ticketComments()
+    {
+        return $this->hasMany(TicketComment::class); // Un usuario tiene muchos comentarios 
+    }
 }

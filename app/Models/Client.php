@@ -9,6 +9,12 @@ class Client extends Model
 {
     use HasFactory;
 
-    public function tickets() { 
-        return $this->hasMany(Ticket::class); }
+    protected $fillable = ['name', 'email', 'phone'];
+
+    // Relaciones
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class); // Un cliente tiene muchos tickets
+    }
+
 }
